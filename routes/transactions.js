@@ -13,7 +13,7 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.get('/findAll', async (req, res) => {
+router.get('/transactions', async (req, res) => {
   try {
     const transactions = await Transaction.find();
     res.status(200).json(transactions);
@@ -21,5 +21,21 @@ router.get('/findAll', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+router.get('/find/:transactionId', async (req, res) => {
+  try {
+    const transactionId = req.params.transactionId;
+    // Query the database to find the transaction by their id
+    const transaction = await Transaction.findById(transactionId);
+
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+    res.json(transaction);
+  } catch (error) {
+    res.status(500).json({ error: 'Error retrieving transaction data' });
+  }
+});
+
 
 export default router;
