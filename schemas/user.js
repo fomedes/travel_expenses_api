@@ -15,9 +15,10 @@ const userSchema = new Schema({
   transactions: [{
     type: Schema.Types.ObjectId,
     ref: 'Transaction'
-  }]
-},
-)
+  }],
+  defaultCurrency: String,
+  lastCountry: String,
+})
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {

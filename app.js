@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+import cookieParser from 'cookie-parser';
 import express, { json } from 'express';
 import { corsMiddleware } from './middlewares/cors.js';
 import categoryRouter from './routes/category.js';
@@ -14,6 +15,8 @@ const app = express()
 
 app.use(json())
 app.use(corsMiddleware())
+app.use(cookieParser())
+
 app.disable('x-powered-by')
 
 app.use('/api/transactions', transactionRouter);
