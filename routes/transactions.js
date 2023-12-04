@@ -37,5 +37,17 @@ router.get('/find/:transactionId', async (req, res) => {
   }
 });
 
+router.get('/find/user/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Find all transactions for the given user
+    const transactions = await Transaction.find({ user: userId });
+
+    res.json(transactions);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 export default router;

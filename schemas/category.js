@@ -6,7 +6,12 @@ const categorySchema = new Schema({
     type: String,
     unique: true
   },
-  icon: String
+  icon: String,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
+
 });
 
 categorySchema.set('toJSON', {

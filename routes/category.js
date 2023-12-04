@@ -37,6 +37,18 @@ router.get('/find/:categoryId', async (req, res) => {
   }
 });
 
+router.get('/find/user/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Find all categories for the given user
+    const categories = await Category.find({ user: userId });
+
+    res.json(categories);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 export default router;

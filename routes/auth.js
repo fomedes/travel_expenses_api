@@ -1,10 +1,12 @@
+import bcrypt from 'bcrypt';
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import User from '../schemas/user.js';
 
 
 const router = express.Router();
 
-router.post('/auth', async (req, res) => {
+router.post('/', async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -15,13 +17,14 @@ router.post('/auth', async (req, res) => {
       return res.status(401).json({ error: 'Authentication failed' });
     }
 
-    // Replace this with your actual password validation logic
-    if (user.password !== password) {
-      return res.status(401).json({ error: 'Authentication failed' });
+    const passwordMatch = await bcrypt.compare(password, user.passwordHash);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ error: `Authentication failed: wrong password entered` });
     }
 
     // Generate an access token
-    const token = Jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
@@ -31,6 +34,7 @@ router.post('/auth', async (req, res) => {
 
     // Respond with the userId and access token
   } catch (error) {
+    console.error('Authentication Error:', error);
     res.status(500).json({ error: 'Error during authentication' });
   }
 });
