@@ -2,10 +2,7 @@ import { Schema, model } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
 const categorySchema = new Schema({
-  title: {
-    type: String,
-    unique: true
-  },
+  title: String ,
   icon: String,
   user_id: {
     type: Schema.Types.ObjectId,
