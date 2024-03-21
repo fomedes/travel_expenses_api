@@ -14,6 +14,7 @@ const transactionSchema = new Schema({
   },
   country: String,
   currency: String,
+  currencySymbol: String,
   amount: Number,
   accountCurrencyAmount: Number,
   split: String,
