@@ -7,7 +7,7 @@ const categorySchema = new Schema({
     unique: true
   },
   icon: String,
-  user: {
+  user_id: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   }

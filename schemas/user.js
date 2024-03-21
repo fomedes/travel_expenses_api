@@ -11,13 +11,23 @@ const userSchema = new Schema({
     type: String,
     unique: true
   },
-  passwordHash: String,
+  password: String,
   transactions: [{
     type: Schema.Types.ObjectId,
     ref: 'Transaction'
   }],
-  defaultCurrency: String,
+  country: String,
+  defaultCurrency: {
+      name: {
+        type: String,
+      },
+      code: {
+        type: String,
+        uppercase: true,
+      },
+ },
   lastCountry: String,
+  lastCurrency: String,
 })
 
 userSchema.set('toJSON', {
@@ -27,7 +37,7 @@ userSchema.set('toJSON', {
     delete returnedObject._id
     delete returnedObject.__v
 
-    delete returnedObject.passwordHash
+    delete returnedObject.password
   }
 })
 

@@ -4,13 +4,15 @@ dotenv.config();
 import cookieParser from 'cookie-parser';
 import express, { json } from 'express';
 import { corsMiddleware } from './middlewares/cors.js';
-import authRouter from './routes/auth.js';
 import categoryRouter from './routes/category.js';
+import loginRouter from './routes/login.js';
+import planRouter from './routes/plan.js';
 import transactionRouter from './routes/transactions.js';
 import userRouter from './routes/user.js';
 
 
 import './mongo.js';
+// import './thenounproject.js';
 
 const app = express()
 
@@ -26,7 +28,9 @@ app.use('/api/users', userRouter);
 
 app.use('/api/categories', categoryRouter);
 
-app.use('/api/auth', authRouter);
+app.use('/api/plans', planRouter);
+
+app.use('/api/login', loginRouter);
 
 const PORT = process.env.PORT || 3000;
 

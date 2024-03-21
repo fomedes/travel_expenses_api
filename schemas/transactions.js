@@ -2,14 +2,22 @@ import { Schema, model } from 'mongoose';
 
 const transactionSchema = new Schema({
   title: String,
-  date: Date,
-  category: String,
-  amount: Number,
-  currency: String,
-  country: String,
   description: String,
-  split: Boolean,
-  user: {
+  date: Date,
+  plan_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Plan'
+  },
+  category_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
+  },
+  country: String,
+  currency: String,
+  amount: Number,
+  accountCurrencyAmount: Number,
+  split: String,
+  user_id: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   }

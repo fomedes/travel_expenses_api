@@ -7,14 +7,14 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
   try {
-    const { name, username, email, passwordHash } = req.body;
-    const hashedPassword = await bcrypt.hash(passwordHash, 10);
+    const { username, email, defaultCurrency, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
-      name,
       username,
       email,
-      passwordHash: hashedPassword,
+      defaultCurrency,
+      password: hashedPassword,
     });
     await user.save();
     res.status(201).json(user);
@@ -23,11 +23,11 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.get('/find/:userId', async (req, res) => {
+router.get('/find/:user_id', async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const user_id = req.params.user_id;
     // Query the database to find the user by their id
-    const user = await User.findById(userId);
+    const user = await User.findById(user_id);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -38,7 +38,7 @@ router.get('/find/:userId', async (req, res) => {
   }
 });
 
-router.get('/usernames', async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
     const usernames = await User.find({}, 'username');
 
@@ -52,5 +52,27 @@ router.get('/usernames', async (req, res) => {
   }
 });
 
+router.patch('/update/:user_id', async (req, res) => {
+  try {
+    const user_id = req.params.user_id;
+    console.log('Received user ID:', user_id); // Log the received user ID
+
+    const updatedUser = await User.findByIdAndUpdate(
+      user_id,
+      { $set: req.body },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      console.error('User not found:', user_id); // Log details for debugging
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 export default router;
