@@ -8,7 +8,6 @@ router.use(auth);
 
 router.post('/create', async (req, res) => {
   try {
-    console.log('Request Body:', req.body);
     const transaction = new Transaction({
       ...req.body
     });    await transaction.save();
