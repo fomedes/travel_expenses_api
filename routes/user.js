@@ -55,7 +55,6 @@ router.get('/all', async (req, res) => {
 router.patch('/update/:user_id', async (req, res) => {
   try {
     const user_id = req.params.user_id;
-    console.log('Received user ID:', user_id); // Log the received user ID
 
     const updatedUser = await User.findByIdAndUpdate(
       user_id,
